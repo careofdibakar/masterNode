@@ -23,11 +23,30 @@ const server = http.createServer((request, response) => {
 
             break
         case '/read_file':
-            const fileContent = file.readFile(requestURL.query.file_name)
-            log(fileContent)
+            file.readFile(requestURL.query.file_name).then(data => {
+                log(data)
+            }).catch(err => {
+                response(err)
+            })
             break
-        case '/user':
-            response.write('This is user page')
+        case '/reWriteFile':
+            let appendbody = ''
+
+            request.on('data', (chunk) => {
+                appendbody += chunk
+            })
+            request.on('end', () => {
+                jsonData = JSON.parse(appendbody)
+                // console.log('Received data:', jsonData)
+                file.reWriteFile(jsonData.file_name, jsonData.file_content).then((result) => {
+                    if (result === 1) {
+                        log('Content append successfully')
+                    }
+                }).catch((err) => {
+                    log(err)
+                })
+            })
+
             break
     }
     response.end()
