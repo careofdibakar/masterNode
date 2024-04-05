@@ -48,6 +48,15 @@ const server = http.createServer((request, response) => {
             })
 
             break
+        case '/delete_file':
+            file.deleteFile(requestURL.query.file_name).then(data => {
+                if (data === 1) {
+                    log('File deleted successfully')
+                }
+            }).catch(err => {
+                log(err)
+            })
+            break
     }
     response.end()
 }).listen(8000, () => {

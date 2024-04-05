@@ -33,5 +33,17 @@ const reWriteFile = async function (file_name, append_content) {
         })
     })
 }
+const deleteFile = async function (file_name) {
+    return new Promise((resolve, reject) => {
+        file_name = "./assets/" + file_name
+        fs.unlink(file_name, (err) => {
+            if (err) {
+                reject(err)
+                return
+            }
+            resolve(1)
+        })
+    })
+}
 // log(readFile('Biodata.txt'))
-module.exports = { createFile, readFile, reWriteFile };
+module.exports = { createFile, readFile, reWriteFile, deleteFile };
