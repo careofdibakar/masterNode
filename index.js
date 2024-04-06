@@ -2,6 +2,8 @@ const { log } = require('console')
 const http = require('http')
 const url = require('url')
 const file = require('./fsModule')
+const ejs = require('ejs')
+const fs = require('fs');
 
 const server = http.createServer((request, response) => {
     let requestURL = url.parse(request.url, true)
@@ -56,6 +58,29 @@ const server = http.createServer((request, response) => {
             }).catch(err => {
                 log(err)
             })
+            break
+        case '/':
+            log('Hi')
+            const data = {
+                name: 'Dibakar'
+            };
+
+            // Render the EJS file
+            ejs.renderFile('index.ejs', data, (err, renderedHtml) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+
+                // Write the rendered HTML to a new file
+                fs.writeFile('output.html', renderedHtml, (err) => {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    console.log('Output file generated: output.html');
+                });
+            });
             break
     }
     response.end()
