@@ -1,0 +1,7 @@
+
+# Git SSH Key setup
+$ ssh-keygen -t ed25519 -C "careofdibakar@example.com"
+$ eval "$(ssh-agent -s)"
+$ ssh-add c:/Users/dibak/.ssh/id_ed25519
+$ clip < ~/.ssh/id_ed25519.pub
+$ ssh -T git@github.com
